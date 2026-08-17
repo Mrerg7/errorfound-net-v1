@@ -15,7 +15,13 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = (() => {
+  const url = new URL(Astro.url.pathname, Astro.site);
+  if (url.pathname !== '/' && !url.pathname.endsWith('/')) {
+    url.pathname = `${url.pathname}/`;
+  }
+  return url.href;
+})();
 const siteName = 'errorfound.net';
 const ogImage = image;
 ---
