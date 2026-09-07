@@ -6,3 +6,8 @@ main = "src/worker.ts"
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+# Required so www/http redirects in the Worker run before static assets are served.
+# Without this, matching assets short-circuit the Worker and www returns 200 with a
+# canonical pointing at apex — GSC "Alternate page with proper canonical tag".
+run_worker_first = true
+html_handling = "force-trailing-slash"

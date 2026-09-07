@@ -10,7 +10,7 @@ interface Props {
 
 const {
   title = 'ErrorFound',
-  description = '',
+  description = 'ErrorFound — a demonstration and informational presence.',
   image = 'https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/0c4e4ca0-1573-4e86-838e-858237b53200/public',
   noindex = false,
 } = Astro.props;
@@ -31,6 +31,8 @@ const ogImage = image;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary -->
@@ -75,13 +77,13 @@ const ogImage = image;
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": siteName,
-      "url": "https://errorfound.net",
+      "url": canonicalURL,
       "description": description || "ErrorFound",
       "image": ogImage,
       "publisher": {
         "@type": "Organization",
         "name": "ErrorFound",
-        "url": "https://errorfound.net",
+        "url": canonicalURL,
         "email": "erg@errorfound.net"
       }
     })} />
