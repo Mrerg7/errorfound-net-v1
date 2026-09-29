@@ -50,12 +50,12 @@ const id = `inquiry-${domain || "general"}-${intent}`.replace(/[^a-z0-9-]/gi, ""
     {intent === "buy" ? "Prepare buy request" : intent === "offer" ? "Prepare offer" : "Prepare message"}
   </button>
   <p class="text-xs leading-relaxed text-muted">
-    Submitting prepares an email to erg@errorfound.net. It does not charge a card and it is not a binding purchase.
+    Submitting prepares an email to sales@desertrich.com. It does not charge a card and it is not a binding purchase.
   </p>
   <div class="js-done hidden">
     <p class="js-done-copy text-sm leading-relaxed text-muted"></p>
-    <a class="js-mailto mt-4 inline-flex min-h-12 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent" href={`mailto:erg@errorfound.net?subject=${encodeURIComponent(title)}`}>
-      Email erg@errorfound.net
+    <a class="js-mailto mt-4 inline-flex min-h-12 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent" href={`mailto:sales@desertrich.com?subject=${encodeURIComponent(title)}`}>
+      Email sales@desertrich.com
     </a>
   </div>
 </form>

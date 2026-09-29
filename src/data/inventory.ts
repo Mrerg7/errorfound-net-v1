@@ -5,7 +5,7 @@ export const SITE = {
   name: "ErrorFound",
   domain: "errorfound.net",
   url: "https://errorfound.net",
-  email: "erg@errorfound.net",
+  email: "sales@desertrich.com",
   phone: "",
   city: "Phoenix, Arizona",
 } as const;
@@ -321,7 +321,7 @@ export const ARTICLES: Article[] = [
         heading: "How to make an offer without wasting a month",
         paragraphs: [
           "Open with a number you can fund, not a number you hope starts a debate. Say what the name is for. Ask for escrow, not a wire to a personal account. A complete transfer is registrar push or auth-code, then the buyer confirms control, then escrow releases funds.",
-          "On this site, names with a published price can be opened at that figure. errorfound.net is offered without a public bin — send a number and a use case to erg@errorfound.net and the agent replies directly.",
+          "On this site, names with a published price can be opened at that figure. errorfound.net is offered without a public bin — send a number and a use case to sales@desertrich.com and the agent replies directly.",
         ],
       },
     ],
@@ -386,7 +386,7 @@ export const ARTICLES: Article[] = [
         heading: "After the name moves",
         paragraphs: [
           "Turn on registrar lock, replace DNS only when you mean to, and keep the old email on the contact record until the new one is verified. The website, the brand, and the domain are three different things — buy the name first, point it second.",
-          "Questions on a specific listing go to erg@errorfound.net. Include the domain, your offer, and whether you want a push or an auth-code transfer.",
+          "Questions on a specific listing go to sales@desertrich.com. Include the domain, your offer, and whether you want a push or an auth-code transfer.",
         ],
       },
     ],

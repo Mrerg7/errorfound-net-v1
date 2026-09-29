@@ -234,7 +234,7 @@
           id +
           " is stored in this browser. Email it so it is not only local. Nothing is purchased until escrow opens and you control the name.";
       }
-      if (mailto) mailto.href = "mailto:erg@errorfound.net?subject=" + subject + "&body=" + body;
+      if (mailto) mailto.href = "mailto:sales@desertrich.com?subject=" + subject + "&body=" + body;
       Array.prototype.forEach.call(formEl.children, function (child) {
         if (child !== done && child.tagName !== "H2") child.classList.add("hidden");
       });

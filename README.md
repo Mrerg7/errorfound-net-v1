@@ -33,4 +33,4 @@ npm run deploy
 
 Production: https://errorfound.net
 
-Inquiries: erg@errorfound.net
+Inquiries: sales@desertrich.com
