@@ -1,0 +1,62 @@
+---
+import { money } from "../data/inventory";
+
+interface Props {
+  domain?: string;
+  intent?: "offer" | "buy" | "contact";
+  asking?: number | null;
+}
+const { domain = "", intent = "contact", asking = null } = Astro.props;
+const title =
+  intent === "buy" ? "Buy now via escrow" : intent === "offer" ? "Make an offer" : "Contact the agent";
+const id = `inquiry-${domain || "general"}-${intent}`.replace(/[^a-z0-9-]/gi, "");
+---
+
+<form
+  class="js-inquiry grid gap-3 rounded-2xl border border-line bg-surface p-5"
+  data-domain={domain}
+  data-intent={intent}
+  novalidate
+>
+  <h2 class="font-display text-2xl text-fg">{title}</h2>
+  {domain ? (
+    <p class="text-sm text-muted">
+      {domain}
+      {asking ? ` · asking ${money(asking)}` : " · private offer"}
+    </p>
+  ) : (
+    <p class="text-sm text-muted">Buying, selling, or a question about transfer.</p>
+  )}
+  <label class="grid gap-1 text-sm text-fg">
+    Name
+    <input class="field" name="name" autocomplete="name" required />
+  </label>
+  <label class="grid gap-1 text-sm text-fg">
+    Email
+    <input class="field" type="email" name="email" autocomplete="email" required />
+  </label>
+  {intent !== "contact" && (
+    <label class="grid gap-1 text-sm text-fg">
+      Amount in USD
+      <input class="field" name="amount" inputmode="decimal" value={asking ? String(asking) : ""} placeholder={asking ? String(asking) : "Your number"} />
+    </label>
+  )}
+  <label class="grid gap-1 text-sm text-fg">
+    Note
+    <textarea class="field min-h-28" name="note"></textarea>
+  </label>
+  <p class="js-error hidden text-sm text-accent" role="alert"></p>
+  <button type="submit" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent">
+    {intent === "buy" ? "Prepare buy request" : intent === "offer" ? "Prepare offer" : "Prepare message"}
+  </button>
+  <p class="text-xs leading-relaxed text-muted">
+    Submitting prepares an email to erg@errorfound.net. It does not charge a card and it is not a binding purchase.
+  </p>
+  <div class="js-done hidden">
+    <p class="js-done-copy text-sm leading-relaxed text-muted"></p>
+    <a class="js-mailto mt-4 inline-flex min-h-12 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent" href={`mailto:erg@errorfound.net?subject=${encodeURIComponent(title)}`}>
+      Email erg@errorfound.net
+    </a>
+  </div>
+</form>
+<span class="hidden" id={id}></span>

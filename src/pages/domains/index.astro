@@ -1,0 +1,70 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DomainCard from "../../components/DomainCard.astro";
+import { CATEGORIES, LISTINGS, TLDS } from "../../data/inventory";
+
+const title = "Buy premium domains | Domain marketplace | ErrorFound";
+const description =
+  "Buy .com, .net, .io, and .ai domains from the ErrorFound marketplace. Filter premium, brandable, technology, security, health, and geographic names by price and length.";
+---
+
+<Layout title={title} description={description}>
+  <main id="content" class="mx-auto max-w-6xl px-4 py-10">
+    <p class="text-sm text-muted"><a class="hover:text-fg" href="/">Home</a> / Marketplace</p>
+    <h1 class="mt-3 font-display text-4xl tracking-tight text-fg sm:text-5xl">Domain marketplace</h1>
+    <p class="mt-3 max-w-2xl text-muted">
+      Premium names for sale. Search by keyword, then narrow by category, extension, length, and maximum price. Filtered addresses keep a single canonical URL so the catalog is not duplicated.
+    </p>
+    <form id="filters" class="mt-8 grid gap-3 rounded-2xl border border-line bg-surface p-4 md:grid-cols-6">
+      <label class="grid gap-1 text-sm text-fg md:col-span-2">
+        Keyword
+        <input id="q" class="field" placeholder="debug, clinic, phoenix" aria-label="Search domains" />
+      </label>
+      <label class="grid gap-1 text-sm text-fg">
+        Category
+        <select id="category" class="field">
+          <option value="">Any</option>
+          {CATEGORIES.map((c) => <option value={c.id}>{c.label}</option>)}
+        </select>
+      </label>
+      <label class="grid gap-1 text-sm text-fg">
+        Extension
+        <select id="tld" class="field">
+          <option value="">Any</option>
+          {TLDS.map((tld) => <option value={tld}>.{tld}</option>)}
+        </select>
+      </label>
+      <label class="grid gap-1 text-sm text-fg">
+        Max price
+        <select id="max" class="field">
+          <option value="">Any</option>
+          <option value="3000">Under $3,000</option>
+          <option value="5000">Under $5,000</option>
+          <option value="8000">Under $8,000</option>
+          <option value="10000">Under $10,000</option>
+          <option value="20000">Under $20,000</option>
+        </select>
+      </label>
+      <label class="grid gap-1 text-sm text-fg">
+        Length
+        <select id="len" class="field">
+          <option value="">Any</option>
+          <option value="short">Short, 7 or fewer</option>
+          <option value="medium">Medium, 8–11</option>
+          <option value="long">Longer, 12+</option>
+        </select>
+      </label>
+      <div class="flex items-end gap-3 md:col-span-2">
+        <button type="submit" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent">Search</button>
+        <button type="button" id="clear-filters" class="inline-flex min-h-12 items-center text-sm text-muted">Clear</button>
+      </div>
+    </form>
+    <p id="result-count" class="mt-6 text-sm text-muted">{LISTINGS.length} names</p>
+    <div id="catalog" class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {LISTINGS.map((domain) => <DomainCard domain={domain} />)}
+    </div>
+    <p id="empty" class="mt-6 hidden rounded-2xl border border-dashed border-line p-8 text-muted">
+      Nothing in that slice. Clear a filter, or <a class="text-accent-2" href="/contact/">ask the agent</a> to source a name that is not listed.
+    </p>
+  </main>
+</Layout>

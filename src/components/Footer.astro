@@ -1,0 +1,46 @@
+---
+import { LISTINGS } from "../data/inventory";
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-surface">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <p class="font-display text-xl text-fg"><span class="text-accent">Error</span>Found</p>
+      <p class="mt-2 text-sm leading-relaxed text-muted">
+        Premium domain marketplace operated from Phoenix, Arizona. One registration per name.
+        Transfers close through escrow.
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-medium text-fg">Marketplace</p>
+      <ul class="mt-3 space-y-2 text-sm text-muted">
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/domains/">All names</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/domains/?category=tech">Technology</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/domains/?category=security">Security</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/domains/?tld=com">.com inventory</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-sm font-medium text-fg">Company</p>
+      <ul class="mt-3 space-y-2 text-sm text-muted">
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/about/">About</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/insights/">Insights</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="/contact/">Contact the agent</a></li>
+        <li><a class="inline-flex min-h-12 items-center hover:text-fg" href="mailto:erg@errorfound.net">erg@errorfound.net</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-sm font-medium text-fg">Flagship</p>
+      <p class="mt-3 font-display text-2xl text-fg">errorfound.net</p>
+      <a class="mt-3 inline-flex min-h-12 items-center text-sm text-accent-2 hover:text-fg" href="/domains/errorfound-net/">View the listing</a>
+      <p class="text-xs text-muted">{LISTINGS.length} names in the portfolio</p>
+    </div>
+  </div>
+  <p class="mx-auto max-w-6xl px-4 pb-8 text-xs leading-relaxed text-muted">
+    Names are offered subject to availability and a written agreement. A form on this site records
+    your inquiry; it is not itself a purchase. Funds should move only through a licensed escrow
+    service after you control the name at the registrar. Notes in Insights explain how pricing
+    works. They are not a promise of appreciation. © {year} ErrorFound.
+  </p>
+</footer>

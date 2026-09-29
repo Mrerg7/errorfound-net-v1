@@ -1,18 +1,24 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
   image?: string;
   noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  preloadImage?: boolean;
 }
 
 const {
-  title = 'ErrorFound',
-  description = 'ErrorFound — a demonstration and informational presence.',
+  title,
+  description,
   image = 'https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/0c4e4ca0-1573-4e86-838e-858237b53200/public',
   noindex = false,
+  jsonLd,
+  preloadImage = false,
 } = Astro.props;
 
 const canonicalURL = (() => {
@@ -22,8 +28,8 @@ const canonicalURL = (() => {
   }
   return url.href;
 })();
-const siteName = 'errorfound.net';
-const ogImage = image;
+
+const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -34,61 +40,84 @@ const ogImage = image;
     <meta name="format-detection" content="telephone=no" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- Primary -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="OXzVqwHJ7F_jLZRXVZO5FpcE5m1erg_dEjDmYB0VRRw" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalURL} />
-
-    <!-- Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-
-    <!-- Theme -->
-    <meta name="theme-color" content="#050505" />
-    <meta name="color-scheme" content="dark" />
-
-    <!-- Open Graph -->
+    <meta name="theme-color" content="#07080b" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Outfit:wght@400;500;600&display=swap"
+    />
+    {preloadImage && <link rel="preload" as="image" href={image} fetchpriority="high" />}
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content={siteName} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="errorfound.net" />
+    <meta property="og:image" content={image} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="ErrorFound" />
     <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={image} />
     <meta name="twitter:image:alt" content="ErrorFound" />
-
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": siteName,
-      "url": canonicalURL,
-      "description": description || "ErrorFound",
-      "image": ogImage,
-      "publisher": {
-        "@type": "Organization",
-        "name": "ErrorFound",
-        "url": canonicalURL,
-        "email": "erg@errorfound.net"
-      }
-    })} />
+    {
+      blocks.map((block) => (
+        <script type="application/ld+json" set:html={JSON.stringify(block)} />
+      ))
+    }
+    <script is:inline>
+      try {
+        if (localStorage.getItem("ef-theme") === "light") {
+          document.documentElement.classList.add("light");
+          document.documentElement.style.colorScheme = "light";
+        }
+      } catch (e) {}
+    </script>
   </head>
-  <body class="bg-[var(--color-void)] text-[var(--color-ghost)]">
+  <body>
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-surface focus:px-4 focus:py-3"
+      >Skip to content</a
+    >
+    <Header />
     <slot />
+    <Footer />
+    <div id="exit" class="fixed inset-0 z-50 hidden items-end justify-center bg-ink/70 p-4 sm:items-center" hidden>
+      <div role="dialog" aria-labelledby="exit-title" class="w-full max-w-md rounded-2xl border border-line bg-surface p-6">
+        <div class="flex items-start justify-between gap-3">
+          <h2 id="exit-title" class="font-display text-2xl text-fg">Get the portfolio note</h2>
+          <button type="button" id="exit-close" class="inline-flex size-12 items-center justify-center rounded-full text-muted" aria-label="Close">
+            Close
+          </button>
+        </div>
+        <p class="mt-2 text-sm leading-relaxed text-muted">
+          A short note when a name is reserved or the asking price changes. No discount clock.
+        </p>
+        <form id="exit-form" class="mt-4 grid gap-3">
+          <label class="text-sm text-fg" for="exit-email">Email</label>
+          <input id="exit-email" class="field" type="email" required autocomplete="email" placeholder="you@company.com" />
+          <button type="submit" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent">
+            Send me the note
+          </button>
+          <p id="exit-done" class="hidden text-sm text-fg"></p>
+        </form>
+      </div>
+    </div>
+    <script src="/site.js" defer></script>
   </body>
 </html>

@@ -1,0 +1,123 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DomainCard from "../../components/DomainCard.astro";
+import Inquiry from "../../components/Inquiry.astro";
+import {
+  HERO,
+  LISTINGS,
+  SITE,
+  categoryLabel,
+  lengthBand,
+  priceLabel,
+  similarTo,
+  sldOf,
+  slugFor,
+  tldOf,
+  type DomainListing,
+} from "../../data/inventory";
+
+export function getStaticPaths() {
+  return LISTINGS.map((domain) => ({
+    params: { slug: slugFor(domain.name) },
+    props: { domain },
+  }));
+}
+
+interface Props {
+  domain: DomainListing;
+}
+const { domain } = Astro.props;
+const slug = slugFor(domain.name);
+const price = priceLabel(domain.price);
+const similar = similarTo(domain.name);
+const title = `${domain.name} | Premium Domain for Sale | ErrorFound`;
+const description = `${domain.name} is ${price === "Make offer" ? "available by private offer" : `listed at ${price}`}. ${domain.tagline} Escrow-protected transfer through ErrorFound.`;
+const base = 12 + (domain.name.length % 9);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: domain.name,
+  description: domain.summary,
+  image: HERO,
+  brand: { "@type": "Brand", name: "ErrorFound" },
+  category: `Premium domain name / ${categoryLabel(domain.category)}`,
+  url: `${SITE.url}/domains/${slug}/`,
+  offers: {
+    "@type": "Offer",
+    url: `${SITE.url}/domains/${slug}/`,
+    availability: "https://schema.org/InStock",
+    priceCurrency: "USD",
+    ...(domain.price != null ? { price: domain.price } : {}),
+    seller: { "@type": "Organization", name: "ErrorFound", email: SITE.email },
+  },
+};
+---
+
+<Layout title={title} description={description} jsonLd={jsonLd}>
+  <main id="content" class="mx-auto max-w-6xl px-4 py-10">
+    <p class="text-sm text-muted">
+      <a class="hover:text-fg" href="/">Home</a> /
+      <a class="hover:text-fg" href="/domains/">Marketplace</a> /
+      {domain.name}
+    </p>
+    <div class="mt-6 grid items-start gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <div>
+        <p class="text-xs font-medium tracking-widest text-muted uppercase">{categoryLabel(domain.category)} · one registration</p>
+        <h1 class="mt-2 font-display text-5xl tracking-tight text-fg sm:text-6xl">{domain.name}</h1>
+        <p class="mt-4 max-w-xl text-lg text-muted">{domain.tagline}</p>
+        <p class="mt-6 font-display text-4xl text-fg">{price}</p>
+        <p class="mt-2 text-sm text-muted" data-views={domain.name} data-base={base}>Opened in this browser.</p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          {domain.price != null && <a href="#acquire" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent">Buy now</a>}
+          <a href="#acquire" class="inline-flex min-h-12 items-center justify-center rounded-full border border-line px-5 text-sm text-fg">Make offer</a>
+          <a href={`/contact/?domain=${encodeURIComponent(domain.name)}&intent=contact`} class="inline-flex min-h-12 items-center justify-center rounded-full px-5 text-sm text-accent-2">Contact agent</a>
+        </div>
+        <h2 class="mt-12 font-display text-3xl text-fg">What the name carries</h2>
+        <p class="mt-3 max-w-2xl leading-relaxed text-muted">{domain.summary}</p>
+        <h2 class="mt-10 font-display text-3xl text-fg">Where it fits</h2>
+        <ul class="mt-3 grid gap-3">
+          {domain.uses.map((use) => <li class="rounded-2xl border border-line bg-surface px-4 py-3 text-fg">{use}</li>)}
+        </ul>
+        <dl class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="rounded-2xl border border-line p-4">
+            <dt class="text-xs tracking-widest text-muted uppercase">Extension</dt>
+            <dd class="mt-1 text-fg">.{tldOf(domain.name)}</dd>
+          </div>
+          <div class="rounded-2xl border border-line p-4">
+            <dt class="text-xs tracking-widest text-muted uppercase">Length</dt>
+            <dd class="mt-1 text-fg">{sldOf(domain.name).length} letters</dd>
+          </div>
+          <div class="rounded-2xl border border-line p-4">
+            <dt class="text-xs tracking-widest text-muted uppercase">Band</dt>
+            <dd class="mt-1 text-fg capitalize">{lengthBand(domain.name)}</dd>
+          </div>
+          <div class="rounded-2xl border border-line p-4">
+            <dt class="text-xs tracking-widest text-muted uppercase">Category</dt>
+            <dd class="mt-1 text-fg">{categoryLabel(domain.category)}</dd>
+          </div>
+        </dl>
+      </div>
+      <div id="acquire" class="grid gap-4 lg:sticky lg:top-24">
+        <Inquiry domain={domain.name} intent={domain.price != null ? "buy" : "offer"} asking={domain.price} />
+        <div class="rounded-2xl border border-line p-5 text-sm leading-relaxed text-muted">
+          <h2 class="font-display text-2xl text-fg">How the transfer works</h2>
+          <ol class="mt-3 list-decimal space-y-2 pl-4">
+            <li>You and the agent agree a number in writing.</li>
+            <li>A licensed escrow service holds the funds.</li>
+            <li>The name is pushed or sent with an auth code.</li>
+            <li>You confirm it is in your registrar account. Then escrow pays.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    {similar.length > 0 && (
+      <section class="mt-16">
+        <h2 class="font-display text-3xl text-fg">Similar {categoryLabel(domain.category).toLowerCase()} names</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {similar.map((item) => <DomainCard domain={item} />)}
+        </div>
+      </section>
+    )}
+  </main>
+</Layout>

@@ -1,53 +1,36 @@
 # ErrorFound.net
 
-Mysterious, image-driven static site built with **Astro 7** + **Tailwind CSS 4**, deployed as pure **Cloudflare Workers Static Assets** (no adapter, assets-only).
+Premium domain marketplace for **errorfound.net** and the surrounding portfolio. Astro 7, Tailwind CSS 4, deployed as Cloudflare Workers static assets.
 
 ## Stack
 
-- Astro 7 (static output)
-- Tailwind CSS 4 via `@tailwindcss/vite`
+- Astro 7 static output, trailing slashes
+- Tailwind CSS 4
 - `@astrojs/sitemap`
-- Content Collections (ready)
-- Cloudflare Images CDN for the primary visual
-- Full Open Graph + Twitter cards + JSON-LD structured data
-- `robots.txt` + auto-generated sitemap
+- Cloudflare Images for the hero
+- Worker in front of assets for apex/HTTPS redirects and security headers
+- `robots.txt` points at the generated sitemap
 
-## Local development
+## Edit the book
+
+Names, asking prices, and insight notes are in [`src/data/inventory.ts`](src/data/inventory.ts). A `null` price means “make offer.”
+
+## Local
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build & Deploy (Cloudflare Workers Static Assets)
+## Build and deploy
 
 ```bash
 npm run build
-# outputs pure static files to ./dist
-
-# Deploy (requires wrangler logged in)
 npm run deploy
-# or
-npx wrangler deploy
 ```
 
-`wrangler.toml` is configured for assets-only:
+`wrangler.toml` serves `./dist` with `run_worker_first` so canonical redirects win over the static file. Stay on the Workers free plan. No `@astrojs/cloudflare` adapter.
 
-```toml
-[assets]
-directory = "./dist"
-```
+Production: https://errorfound.net
 
-No Worker script or `@astrojs/cloudflare` adapter is required.
-
-## Domain
-
-Production target: **https://errorfound.net**
-
-CTA routes to: `erg@errorfound.net`
-
-## Notes
-
-- Fully static, edge-cached via Cloudflare.
-- Mobile-first, full-viewport image with atmospheric fades, vignette, grain, and subtle drift.
-- No body copy — visual + single acquisition CTA + required disclaimer footer.
+Inquiries: erg@errorfound.net

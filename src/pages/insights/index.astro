@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ARTICLES } from "../../data/inventory";
+
+const title = "Domain valuation guides and transfer notes | ErrorFound";
+const description =
+  "Domain valuation guides, brandable-name checks, and the escrow transfer checklist from the ErrorFound marketplace.";
+---
+
+<Layout title={title} description={description}>
+  <main id="content" class="mx-auto max-w-3xl px-4 py-12">
+    <p class="text-sm text-muted"><a class="hover:text-fg" href="/">Home</a> / Insights</p>
+    <h1 class="mt-3 font-display text-4xl tracking-tight text-fg sm:text-5xl">Insights</h1>
+    <p class="mt-3 text-muted">Valuation, buying discipline, and how a transfer should actually close.</p>
+    <div class="mt-8 grid gap-4">
+      {ARTICLES.map((article) => (
+        <article class="rounded-2xl border border-line bg-surface p-5">
+          <p class="text-xs font-medium tracking-widest text-muted uppercase">{article.kicker}</p>
+          <h2 class="mt-2 font-display text-3xl leading-tight text-fg">
+            <a class="hover:text-accent-2" href={`/insights/${article.slug}/`}>{article.title}</a>
+          </h2>
+          <p class="mt-2 leading-relaxed text-muted">{article.description}</p>
+          <p class="mt-3 text-sm text-muted">{article.date} · {article.minutes} min read</p>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>

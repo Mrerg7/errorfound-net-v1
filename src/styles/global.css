@@ -1,102 +1,96 @@
 @import "tailwindcss";
 
-/* Custom theme tokens for mystic aesthetic */
 @theme {
-  --color-void: #050505;
-  --color-mist: #0a0a0f;
-  --color-ember: #1a1210;
-  --color-ghost: #e8e4df;
-  --color-whisper: #a39e97;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --color-bg: #07080b;
+  --color-surface: #12141a;
+  --color-surface-2: #1c2028;
+  --color-fg: #ece8e2;
+  --color-muted: #9a958c;
+  --color-line: #2c303a;
+  --color-accent: #d24b42;
+  --color-accent-2: #3d8eb8;
+  --color-on-accent: #fff8f6;
+  --color-paper: #ece8e2;
+  --color-ink: #07080b;
 }
 
-/* Base */
-html {
-  @apply bg-[var(--color-void)] text-[var(--color-ghost)] antialiased;
-  scroll-behavior: smooth;
+html.light {
+  --color-bg: #f3f0ea;
+  --color-surface: #fffcf8;
+  --color-surface-2: #e8e2d6;
+  --color-fg: #16181d;
+  --color-muted: #5c5852;
+  --color-line: #d8d1c6;
+  --color-accent: #c13d35;
+  --color-accent-2: #1d6d94;
+  color-scheme: light;
 }
 
-body {
-  @apply min-h-dvh overflow-x-hidden;
-}
-
-/* Mystic image effects */
-@keyframes fade-in-slow {
-  0% {
-    opacity: 0;
-    transform: scale(1.08);
-    filter: brightness(0.4) contrast(1.2) saturate(0.6);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-bg);
+    color: var(--color-fg);
   }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: brightness(0.85) contrast(1.05) saturate(0.75);
+  body {
+    min-height: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
   }
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.35;
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary {
+    cursor: pointer;
   }
-  50% {
-    opacity: 0.55;
+  :focus-visible {
+    outline: 2px solid var(--color-accent-2);
+    outline-offset: 3px;
   }
-}
-
-@keyframes drift {
-  0% {
-    transform: translate(-2%, -1%) scale(1.05);
-  }
-  50% {
-    transform: translate(1%, 2%) scale(1.08);
-  }
-  100% {
-    transform: translate(-2%, -1%) scale(1.05);
-  }
-}
-
-@keyframes soft-fade {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 35%, transparent);
   }
 }
 
-.mystic-image {
-  animation: fade-in-slow 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+@layer components {
+  .field {
+    min-height: 3rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    padding: 0.65rem 0.85rem;
+    color: var(--color-fg);
+    font-size: 1rem;
+  }
+  .hero-scrim {
+    background: radial-gradient(
+      ellipse 90% 80% at 70% 40%,
+      transparent 0%,
+      color-mix(in oklab, var(--color-ink) 45%, transparent) 48%,
+      color-mix(in oklab, var(--color-ink) 88%, transparent) 100%
+    );
+  }
+  .hero-veil {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--color-ink) 92%, transparent) 0%,
+      color-mix(in oklab, var(--color-ink) 35%, transparent) 42%,
+      color-mix(in oklab, var(--color-ink) 55%, transparent) 100%
+    );
+  }
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
 }
 
-.fog-layer {
-  animation: pulse-glow 9s ease-in-out infinite;
-}
-
-.drift-layer {
-  animation: drift 28s ease-in-out infinite;
-}
-
-.cta-reveal {
-  animation: soft-fade 2.2s ease-out 2.8s both;
-}
-
-.footer-reveal {
-  animation: soft-fade 1.8s ease-out 4s both;
-}
-
-/* Subtle noise texture via CSS (no external asset) */
-.noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 180px;
-  pointer-events: none;
-}
-
-/* Selection */
-::selection {
-  background: rgba(180, 160, 140, 0.25);
-  color: var(--color-ghost);
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

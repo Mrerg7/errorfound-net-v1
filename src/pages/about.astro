@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "About the marketplace | ErrorFound";
+const description =
+  "ErrorFound is a Phoenix domain marketplace. Premium names, written offers, and escrow-protected registrar transfers. The flagship listing is errorfound.net.";
+---
+
+<Layout title={title} description={description}>
+  <main id="content" class="mx-auto max-w-3xl px-4 py-12">
+    <p class="text-sm text-muted"><a class="hover:text-fg" href="/">Home</a> / About</p>
+    <h1 class="mt-3 font-display text-4xl tracking-tight text-fg sm:text-5xl">A small book of names.</h1>
+    <div class="mt-6 grid gap-4 text-base leading-relaxed text-muted">
+      <p>
+        ErrorFound lists premium domain names and coordinates the transfer. The flagship is
+        <a class="text-fg" href="/domains/errorfound-net/">errorfound.net</a>. The rest of the portfolio is technology, security, health, geography, and brandable names a buyer can say out loud.
+      </p>
+      <p>
+        The desk is in Phoenix, Arizona. Inquiries go to erg@errorfound.net. There is no countdown and no invented press badge.
+      </p>
+      <h2 class="font-display text-3xl text-fg">What we will not do</h2>
+      <p>
+        We will not ask you to wire a person. We will not pretend a name is scarce beyond the fact that a domain registration is unique. If a name has an asking price, that is the number. If it says make offer, send one.
+      </p>
+      <h2 class="font-display text-3xl text-fg">Who it is for</h2>
+      <p>
+        Operators naming a product, a clinic group, a security practice, or a regional firm. If you are selling a name into this marketplace, say so in the note and include the spelling, the registrar, and whether it is unlocked.
+      </p>
+    </div>
+    <a href="/contact/" class="mt-8 inline-flex min-h-12 items-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent">Contact the agent</a>
+  </main>
+</Layout>
